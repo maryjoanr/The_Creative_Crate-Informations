@@ -17,6 +17,15 @@ defineProps(['users'])
 </script>
 
 <style scoped>
-.grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-.no-results { color: #3b7428; margin-top: 20px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 220px);
+  gap: 20px;
+  justify-content: center;
+}
+
+.no-results { 
+  color: #3b7428;
+  margin-top: 20px;
+}
 </style>
