@@ -1,18 +1,23 @@
 <template>
   <div class="search-container">
-    <input 
-      type="text" 
-      placeholder="Search industry leaders..." 
-      @input="$emit('search', $event.target.value)"
+    <input
+      type="text"
+      placeholder="Search industry leaders..."
+      @input="$emit('search', ($event.target as HTMLInputElement).value)"
       class="search-input"
     />
   </div>
 </template>
 
 <style scoped>
-.search-container { margin-bottom: 30px; text-align: center; }
+.search-container {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
 .search-input {
-  background: #2d521c; /* Dark Green */
+  background: #2d521c;
   border: 2px solid #3b7428;
   padding: 12px 20px;
   border-radius: 25px;
@@ -21,6 +26,13 @@
   outline: none;
   transition: border-color 0.3s;
 }
-.search-input:focus { border-color: #8c1c00; /* Red Accent */ }
-::placeholder { color: #3b7428; }
+
+.search-input:focus { 
+  border-color: #8c1c00;
+}
+
+::placeholder {
+  color: #3b7428;
+}
+
 </style>
