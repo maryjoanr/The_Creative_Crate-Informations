@@ -1,7 +1,7 @@
 <template>
   <main class="app-container">
     <header>
-      <h1>Partnered with <span class="accent">Twelve Midnight</span></h1>
+      <h1>Basic Student Information</h1>
     </header>
 
     <SearchUser @search="handleSearch" />
