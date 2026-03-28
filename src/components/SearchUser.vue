@@ -1,9 +1,9 @@
 <template>
   <div class="search-container">
-    <input 
-      type="text" 
-      placeholder="Search industry leaders..." 
-      @input="$emit('search', $event.target.value)"
+    <input
+      type="text"
+      placeholder="Search industry leaders..."
+      @input="$emit('search', ($event.target as HTMLInputElement).value)"
       class="search-input"
     />
   </div>
