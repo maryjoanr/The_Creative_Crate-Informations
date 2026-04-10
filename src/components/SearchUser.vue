@@ -3,7 +3,7 @@
     <input
       type="text"
       placeholder="Search industry leaders..."
-      @input="$emit('search', ($event.target as HTMLInputElement).value)"
+      @input="$emit('search', $event.target.value)"
       class="search-input"
     />
   </div>

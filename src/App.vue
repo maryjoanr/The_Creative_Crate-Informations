@@ -6,115 +6,44 @@
 
     <SearchUser @search="handleSearch" />
     
-    <UserList :users="filteredUsers" />
+    <p v-if="loading">Fetching industry leaders...</p>
+    <UserList v-else :users="filteredUsers" />
   </main>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import SearchUser from './components/SearchUser.vue'
 import UserList from './components/UserList.vue'
 
 const searchQuery = ref('')
+const users = ref([])  
+const loading = ref(true) 
 
-const users = ref([
-  { 
-    id: 1, 
-    name: 'Bae Nara', 
-    industry: 'Human Resources', 
-    email: 'baenara098@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/BaeNara.jpg', import.meta.url).href 
-  },
-  { 
-    id: 2, 
-    name: 'Choi Hyun Wook', 
-    industry: 'Information Technology', 
-    email: 'choihyunwookashayichan@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/ChoiHyunWook.jpg', import.meta.url).href 
-  },
-  { 
-    id: 3, 
-    name: 'Daniela Avanzini', 
-    industry: 'Marketing', 
-    email: 'katseyedaniela@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Daniella.jpg', import.meta.url).href 
-  },
-  { 
-    id: 4, 
-    name: 'Lara Raj', 
-    industry: 'Marketing', 
-    email: 'katseyelararaj@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Lara.jpg', import.meta.url).href 
-  },
-  { 
-    id: 5, 
-    name: 'Manon Bannerman', 
-    industry: 'Finances & Accounting', 
-    email: 'katseyemanon@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Manon.jpg', import.meta.url).href 
-  },
-  { 
-    id: 6, 
-    name: 'Megan Skiendiel', 
-    industry: 'Finances & Accounting', 
-    email: 'katseyemegan8@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Megan.jpg', import.meta.url).href 
-  },
-  { 
-    id: 7, 
-    name: 'Park Ji Hoon', 
-    industry: 'Information Technology', 
-    email: 'parkjihon099@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/ParkJiHoon.jpg', import.meta.url).href 
-  },
-  { 
-    id: 8, 
-    name: 'Ryeoun', 
-    industry: 'Operations', 
-    email: 'ryeoun94@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Ryeoun.jpg', import.meta.url).href 
-  },
-  { 
-    id: 9, 
-    name: 'Seol In Ah', 
-    industry: 'Operations', 
-    email: 'seolinah@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/SeolInAh.jpg', import.meta.url).href 
-  },
-  { 
-    id: 10, 
-    name: 'Shin Eun Soo', 
-    industry: 'Human Resources', 
-    email: 'eunsoo@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/ShinEunSoo.jpg', import.meta.url).href 
-  },
-  { 
-    id: 11, 
-    name: 'Sophia Laforteza', 
-    industry: 'Sales', 
-    email: 'katseyesofia@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Sophia.jpg', import.meta.url).href 
-  },
-  { 
-    id: 12, 
-    name: 'Jeung Yoonchae', 
-    industry: 'Sales', 
-    email: 'katseyeyoonchae@yahoo.com',
-    phone: '+63 765 945 3556' ,
-    image: new URL('./assets/Yoonchae.jpg', import.meta.url).href 
+
+const getApiData = async () => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users')
+    const data = await response.json()
+
+    users.value = data.map(item => ({
+      id: item.id,
+      name: item.name,
+      industry: item.company.bs, 
+      email: item.email,
+      phone: item.phone,
+      image: `https://i.pravatar.cc/150?u=${item.id}` 
+    }))
+  } catch (error) {
+    console.error("Error loading API:", error)
+  } finally {
+    loading.value = false
   }
-])
+}
+
+onMounted(() => {
+  getApiData()
+})
 
 const handleSearch = (query) => {
   searchQuery.value = query
